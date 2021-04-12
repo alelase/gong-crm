@@ -17,7 +17,6 @@ export default class Data {
             .then(response => response.json())
             .then(data => {return data});
 
-        console.log("Llego?", response);
         return response;
     }
 
@@ -56,6 +55,7 @@ export default class Data {
         return userId;
     }
 
+    //Not in use
     async updatePassword(data) {
         const myHeaders = new Headers(
             {
@@ -92,15 +92,6 @@ export default class Data {
             },
         );
 
-        // const obj = {
-        //     "email":"connor.cornfield@cornfconnor.org",
-        //     "firstName":"Connor",
-        //     "id":1283754522,
-        //     "lastName":"Cornfield",
-        //     "managerId":2523382660,
-        //     "password":"I0roU-l;",
-        //     "photo":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQF2yPPS-b63XB7pXtiIqt7kcvoyr0uOwEI42qrrKus4HaqyLat6w"
-        // }
         const myRequest = new Request(`https://gongfetest.firebaseio.com/users/${selectedEmployee.index}.json`, {
             method: 'PATCH',
             headers: myHeaders,
