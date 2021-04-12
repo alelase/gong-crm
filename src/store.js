@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import Authenticator from './authenticator';
 
 Vue.use(Vuex);
 
@@ -22,7 +22,7 @@ export default new Vuex.Store({
         authStatus: state => state.status,
     },
     actions: {
-        [AUTH_REQUEST]: ({commit}) => {
+        [AUTH_REQUEST]: ({commit}, user) => {
             return new Promise((resolve) => { // The Promise used for router redirect in login
                 commit(AUTH_REQUEST);
                 // axios({url: 'auth', data: user, method: 'POST' })
@@ -35,13 +35,29 @@ export default new Vuex.Store({
                 //         resolve(resp)
                 //     })
                 //     .catch(err => {
-                //         commit(AUTH_ERROR, err);
+                //
                 //         localStorage.removeItem('user-token'); // if the request fails, remove any possible user token if possible
                 //         reject(err)
                 //     })
-                localStorage.setItem('user-token', 'cucu'); // store the token in localstorage
-                commit(AUTH_SUCCESS, 'cucu');
-                resolve();
+
+               getSecrets().then(response=> {
+                   console.log("response", response);
+                   if(checkLoginData(response, user)) {
+                       commit(AUTH_SUCCESS, 'token');
+                       localStorage.setItem('user-token', 'cucu'); // store the token in localstorage
+                       resolve();
+                   } else {
+                       commit(AUTH_ERROR, 'error');
+                   }
+                });
+
+                // const data = getSecrets();
+                // console.log("data", data);
+                // checkLoginData(data);
+
+                // localStorage.setItem('user-token', 'cucu'); // store the token in localstorage
+                // commit(AUTH_SUCCESS, 'cucu');
+                // resolve();
             });
         },
         [AUTH_LOGOUT]: ({commit}) => {
@@ -69,4 +85,43 @@ export default new Vuex.Store({
             state.status = 'error';
         },
     }
-})
+});
+
+
+async function getSecrets() {
+    const myHeaders = new Headers();
+
+    const myRequest = new Request('https://gongfetest.firebaseio.com/secrets.json', {
+        method: 'GET',
+        headers: myHeaders,
+        mode: 'cors',
+        cache: 'default',
+    });
+
+
+    const response = await fetch(myRequest)
+        .then(response => response.json())
+        .then(data => {return data});
+
+    console.log("Llego?", response);
+    return response;
+}
+
+
+function checkLoginData(secrets, user) {
+    console.log("secrets", secrets);
+    let mapSecret = new Map(Object.entries(secrets));
+    console.log("mapSecret", mapSecret);
+    console.log("user", user);
+
+
+    const auth = new Authenticator();
+    const secret = auth.encode(user.username, user.password);
+    console.log("secret", secret);
+
+    const userId = mapSecret.get(secret);
+    console.log("userId", userId);
+    return userId;
+}
+
+

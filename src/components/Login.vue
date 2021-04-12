@@ -1,13 +1,26 @@
 <template>
-    <div class="login-container">
+    <div class="super-login-container">
         <form class="login" @submit.prevent="login">
-            <h1>Sign in</h1>
-            <label>User name</label>
-            <input required v-model="username" type="text" placeholder="Snoopy"/>
-            <label>Password</label>
-            <input required v-model="password" type="password" placeholder="Password"/>
-            <hr/>
-            <button type="submit">Login</button>
+
+            <div class="login-container">
+                <div class="title-login">
+                    <h2>Please login</h2>
+                </div>
+                <div class="user-container">
+                    <label>User name</label>
+                    <input required v-model="username" type="text" placeholder="Snoopy"/>
+                </div>
+                <div class="password-container">
+                    <label>Password</label>
+                    <input required v-model="password" type="password" placeholder="Password"/>
+                </div>
+                <hr/>
+                <div class="button-container">
+                    <button type="submit">Login</button>
+                </div>
+
+            </div>
+
         </form>
     </div>
 </template>
@@ -25,6 +38,7 @@
         methods: {
             login: function () {
                 const { username, password } = this;
+                console.log("username", username);
                 this.$store.dispatch(AUTH_REQUEST, { username, password }).then(() => {
                     this.$router.push('/');
                 })
@@ -35,9 +49,60 @@
 
 <style scoped>
 
+    .super-login-container {
+        display: flex;
+        flex: 1;
+        align-items: center;
+        justify-content: center;
+    }
+
     .login-container {
         flex: 1;
-        padding: 64px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 32px;
+        border: 1px solid silver;
+        border-radius: 4px;
+        width: 360px;
+    }
+
+    .login-container .user-container, .login-container .password-container {
+        padding: 16px 48px;
+        flex: 1;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .login-container .title-login {
+        display: flex;
+        justify-content: flex-start;
+    }
+
+
+    .login-container .button-container {
+        padding-right: 48px;
+        display: flex;
+        justify-content: flex-end;
+
+    }
+
+
+    .login-container .button-container button{
+        background-color: blueviolet;
+        font-size: 18px;
+        color: white;
+        transition: all linear .2s;
+        cursor: pointer;
+        border: none;
+        border-radius: 4px;
+        padding: 4px 16px;
+    }
+
+    .login-container .button-container button:hover{
+        background-color: darkseagreen;
+        font-size: 18px;
+        color: black;
     }
 
 </style>
