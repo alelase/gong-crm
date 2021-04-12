@@ -17,7 +17,7 @@ const ifNotAuthenticated = (to, from, next) => {
 const ifAuthenticated = (to, from, next) => {
     if (store.getters.isAuthenticated) {
         console.log("store.getters.isAuthenticated", store.getters.isAuthenticated);
-        next();
+        next("/account");
         return;
     }
     next("/login");
@@ -26,11 +26,11 @@ const ifAuthenticated = (to, from, next) => {
 export default new Router({
     mode: "history",
     routes: [
-        // {
-        //     path: "/",
-        //     name: "Home",
-        //     component: Home
-        // },
+        {
+            path: "/",
+            name: "Deafault",
+            component: Account,
+        },
         {
             path: "/account",
             name: "Account",

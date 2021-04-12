@@ -22,7 +22,6 @@ export default {
 
       const path = '/login';
       if (this.$route.path !== path) this.$router.push(path);
-
       //this.$store.dispatch(USER_REQUEST);
     }
   }

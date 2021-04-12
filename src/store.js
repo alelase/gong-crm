@@ -39,6 +39,8 @@ export default new Vuex.Store({
                 //         localStorage.removeItem('user-token'); // if the request fails, remove any possible user token if possible
                 //         reject(err)
                 //     })
+                localStorage.setItem('user-token', 'cucu'); // store the token in localstorage
+                commit(AUTH_SUCCESS, 'cucu');
                 resolve();
             });
         },
@@ -53,8 +55,10 @@ export default new Vuex.Store({
     mutations: {
         [AUTH_REQUEST]: (state) => {
             state.status = 'loading';
+            console.log("Auth Request!");
         },
         [AUTH_SUCCESS]: (state, token) => {
+            console.log("Success login!");
             state.status = 'success';
             state.token = token
         },
