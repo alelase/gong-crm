@@ -98,24 +98,6 @@
         align-items: center;
     }
 
-
-    .login-container .button-container button{
-        background-color: blueviolet;
-        font-size: 18px;
-        color: white;
-        transition: all linear .2s;
-        cursor: pointer;
-        border: none;
-        border-radius: 4px;
-        padding: 4px 16px;
-    }
-
-    .login-container .button-container button:hover{
-        background-color: darkseagreen;
-        font-size: 18px;
-        color: black;
-    }
-
     .login-container .button-container .error {
         padding-right: 64px;
         color: crimson;

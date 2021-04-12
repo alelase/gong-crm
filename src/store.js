@@ -10,6 +10,7 @@ export const AUTH_REQUEST = "AUTH_REQUEST";
 export const AUTH_SUCCESS = "AUTH_SUCCESS";
 export const AUTH_ERROR = "AUTH_ERROR";
 export const AUTH_LOGOUT = "AUTH_LOGOUT";
+export const UPDATE_PASSWORD = "UPDATE_PASSWORD";
 
 // const STORAGE_KEY = 'todos-vuejs';
 
@@ -81,7 +82,13 @@ export default new Vuex.Store({
                 localStorage.removeItem('user-token'); // clear your user's token from localstorage
                 resolve();
             })
-        }
+        },
+        [UPDATE_PASSWORD]: ({commit}) => {
+            return new Promise((resolve) => {
+                commit(UPDATE_PASSWORD);
+                resolve();
+            })
+        },
     },
     mutations: {
         [AUTH_REQUEST]: (state) => {
@@ -99,6 +106,9 @@ export default new Vuex.Store({
         },
         [AUTH_ERROR]: (state) => {
             state.status = 'error';
+        },
+        [UPDATE_PASSWORD]: () => {
+            console.log("Update password!");
         },
     }
 });

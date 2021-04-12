@@ -60,4 +60,22 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+.button-container button{
+  background-color: blueviolet;
+  font-size: 18px;
+  color: white;
+  transition: all linear .2s;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 16px;
+}
+
+.button-container button:hover{
+  background-color: darkseagreen;
+  font-size: 18px;
+  color: black;
+}
+
 </style>

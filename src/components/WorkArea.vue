@@ -1,23 +1,61 @@
 <template>
     <div class="work-area-container">
-        <div class="title" v-if="this.selectedEmployee && this.selectedEmployee.id">
-            {{selectedEmployee.firstName}}, {{selectedEmployee.lastName}}
+        <div  v-if="this.selectedEmployee && this.selectedEmployee.id">
+            <div class="title">
+                {{selectedEmployee.firstName}}, {{selectedEmployee.lastName}}
+            </div>
+            <div class="title">
+                {{selectedEmployee.email}}
+            </div>
+            <form class="login" @submit.prevent="update">
+
+                <div class="login-container">
+                    <div class="title-login">
+                        <h2><img :src="selectedEmployee.photo" /></h2>
+                    </div>
+                    <div class="password-container">
+                        <label>Password</label>&nbsp;
+                        <input required v-model="password" type="password" placeholder="Password"/>
+                    </div>
+                    <hr/>
+                    <div class="button-container">
+                        <button type="submit">Update Employee Password</button>
+                    </div>
+
+
+                </div>
+
+            </form>
+        </div>
+
+        <div v-else class="title">
+            Select Employee for the Left Pane
         </div>
     </div>
+
 </template>
 
 <script>
+    import { UPDATE_PASSWORD } from "../store";
     import {mapGetters} from 'vuex';
 
     export default {
         name: "WorkArea",
         data() {
             return {
-                selectedEmployee: {}
+                selectedEmployee: {},
+                password: ""
             }
         },
         methods: {
             ...mapGetters(['employees']),
+            update: function () {
+                const { password } = this;
+                console.log("password", password);
+                this.$store.dispatch(UPDATE_PASSWORD, { password }).then(() => {
+
+                })
+            }
         },
         computed: {
             SelectedEmployees() {
