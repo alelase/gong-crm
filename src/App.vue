@@ -34,6 +34,22 @@ export default {
   color: #2c3e50;
 }
 
+/*Chrome*/
+.scrollable::-webkit-scrollbar-track {
+  background-color: #efefef;
+  width: 4px;
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+  background-color: silver;
+  border: 1px solid transparent;
+  background-clip: content-box;
+}
+
+.scrollable::-webkit-scrollbar {
+  width: 8px;
+}
+
 body {
   padding: 0;
   margin: 0;
