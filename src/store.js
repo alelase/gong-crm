@@ -80,6 +80,7 @@ export default new Vuex.Store({
         },
         [AUTH_LOGOUT]: (state) => {
             state.status = 'logout';
+            state.token = null;
         },
         [AUTH_ERROR]: (state) => {
             state.status = 'error';

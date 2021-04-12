@@ -8,7 +8,7 @@
                 </div>
                 <div class="user-container">
                     <label>User name</label>
-                    <input required v-model="username" type="text" placeholder="Snoopy"/>
+                    <input required v-model="username" type="text" placeholder="enter your email"/>
                 </div>
                 <div class="password-container">
                     <label>Password</label>
@@ -35,8 +35,8 @@
         name: "Login",
         data() {
             return {
-                username: "dogo",
-                password: "dogy"
+                username: "jamie.denburg@denbamie.com",
+                password: "OP5!K?)@"
             };
         },
         methods: {
@@ -45,7 +45,7 @@
                 const { username, password } = this;
                 console.log("username", username);
                 this.$store.dispatch(AUTH_REQUEST, { username, password }).then(() => {
-                    this.$router.push('/');
+                    this.$router.push('/account');
                 })
             }
         },

@@ -4,8 +4,9 @@
         <div class="menu">
             <div class="title">GONG CRM</div>
             <div v-show="authenticated">
-                <span>Hi! Albertito</span>
-                <span>Logout</span>
+                <span class="logged-user">Hi! Albertito Geniales discontes</span>
+                <!--<span class="link" @click="logout()">Logout</span>-->
+                <router-link v-bind:to="'login'" @click.native="logout">Logout</router-link>
             </div>
         </div>
     </div>
@@ -13,7 +14,7 @@
 
 <script>
     import {mapGetters} from 'vuex';
-
+    import { AUTH_LOGOUT } from "../store";
     export default {
         name: "Header",
         data() {
@@ -22,7 +23,15 @@
             }
         },
         methods: {
-            ...mapGetters(['isAuthenticated'])
+            ...mapGetters(['isAuthenticated']),
+            logout() {
+                this.$store.dispatch(AUTH_LOGOUT).then(() => {
+                    //this.$router.push('/login');
+                    console.log("logged out!");
+                })
+
+                //this.$store.dispatch(AUTH_LOGOUT).then(() => this.$router.push("/login"));
+            },
         },
         computed: {
            authenticated() {
@@ -55,8 +64,25 @@
 
     }
 
+    .menu {
+        display: flex;
+        flex-direction: column;
+        height: 48px;
+    }
     .title {
         font-size: 24px;
         color: #3467ac;
+        margin-left: auto;
+    }
+
+    .menu .link{
+        color: blue;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    .menu .logged-user {
+        color: white;
+        padding-right: 8px;
     }
 </style>
