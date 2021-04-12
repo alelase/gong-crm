@@ -35,6 +35,7 @@
         name: "Login",
         data() {
             return {
+                //Note! Placed an exisiting user only for conveninece in order to achieve fast login to debug!.
                 username: "jamie.denburg@denbamie.com",
                 password: "OP5!K?)@"
             };
