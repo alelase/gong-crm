@@ -11,15 +11,19 @@
 
                 <div class="login-container">
                     <div class="title-login">
-                        <h2><img :src="selectedEmployee.photo" /></h2>
+                        <h2><img class="image" :src="selectedEmployee.photo" /></h2>
                     </div>
                     <div class="password-container">
                         <label>Password</label>&nbsp;
-                        <input required v-model="password" type="password" placeholder="Password"/>
+                        <input v-model="password" type="password" placeholder="Password"/>
+                    </div>
+                    <div class="age-container">
+                        <label>Age</label>&nbsp;
+                        <input v-model="selectedEmployee.age" type="text" placeholder="age"/>
                     </div>
                     <hr/>
                     <div class="button-container">
-                        <button type="submit">Update Employee Password</button>
+                        <button type="submit">Update Employee Age</button>
                     </div>
 
 
@@ -36,7 +40,7 @@
 </template>
 
 <script>
-    import { UPDATE_PASSWORD } from "../store";
+    import { UPDATE_EMPLOYEE } from "../store";
     import {mapGetters} from 'vuex';
 
     export default {
@@ -44,15 +48,15 @@
         data() {
             return {
                 selectedEmployee: {},
-                password: ""
+                password: "",
+                age:"",
             }
         },
         methods: {
             ...mapGetters(['employees']),
             update: function () {
-                const { password } = this;
-                console.log("password", password);
-                this.$store.dispatch(UPDATE_PASSWORD, { password }).then(() => {
+                const { selectedEmployee } = this;
+                this.$store.dispatch(UPDATE_EMPLOYEE, { selectedEmployee }).then(() => {
 
                 })
             }
@@ -97,6 +101,13 @@
 
     .title {
         font-size: 24px;
+    }
 
+    .image {
+        width: 200px;
+    }
+
+    .password-container {
+        display: none;
     }
 </style>

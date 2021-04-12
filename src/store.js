@@ -11,12 +11,12 @@ export const AUTH_SUCCESS = "AUTH_SUCCESS";
 export const AUTH_ERROR = "AUTH_ERROR";
 export const AUTH_LOGOUT = "AUTH_LOGOUT";
 export const UPDATE_PASSWORD = "UPDATE_PASSWORD";
+export const UPDATE_EMPLOYEE = "UPDATE_EMPLOYEE";
 
 // const STORAGE_KEY = 'todos-vuejs';
 
 export default new Vuex.Store({
     state: {
-        //todos: JSON.parse(window.localStorage.getItem(STORAGE_KEY) || '[]')
         token: localStorage.getItem('user-token') || '',
         status: '',
         loggedId: '',
@@ -32,7 +32,7 @@ export default new Vuex.Store({
     },
     actions: {
         [AUTH_REQUEST]: ({commit, state}, user) => {
-            return new Promise((resolve) => { // The Promise used for router redirect in login
+            return new Promise((resolve) => {
                 commit(AUTH_REQUEST);
                 data.getSecrets().then(response=> {
                    console.log("response", response);
@@ -57,6 +57,8 @@ export default new Vuex.Store({
                                            managerId: user[1].managerId,
                                            photo: user[1].photo,
                                            selected: false,
+                                           index: user[0],
+                                           age: user[1].age,
                                        };
                                    }
                                    return false;
@@ -83,11 +85,32 @@ export default new Vuex.Store({
                 resolve();
             })
         },
-        [UPDATE_PASSWORD]: ({commit}) => {
+        [UPDATE_PASSWORD]: ({commit}, userdata) => {
+            console.log("update user", userdata.selectedEmployee);
+            console.log("with password", userdata.password);
+            //data.updatePassword(userdata);
+
+            // return new Promise((resolve) => {
+            //
+            //     // data.updatePassword(data).then(user => {
+            //     //     console.log("Password updated!", user);
+            //     // });
+                 commit(UPDATE_PASSWORD);
+            //     resolve();
+            // })
+        },
+        [UPDATE_EMPLOYEE]: ({commit}, userdata) => {
+            console.log("update user", userdata.selectedEmployee);
+            data.updateEmployee(userdata);
+
             return new Promise((resolve) => {
-                commit(UPDATE_PASSWORD);
-                resolve();
-            })
+
+                 data.updateEmployee(userdata.selectedEmployee).then(user => {
+                     console.log("Age updated!", user);
+                 });
+            commit(UPDATE_PASSWORD);
+                 resolve();
+             });
         },
     },
     mutations: {
@@ -109,6 +132,9 @@ export default new Vuex.Store({
         },
         [UPDATE_PASSWORD]: () => {
             console.log("Update password!");
+        },
+        [UPDATE_EMPLOYEE]: () => {
+            console.log("Update age!");
         },
     }
 });
