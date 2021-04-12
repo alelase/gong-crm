@@ -4,7 +4,7 @@
         <div class="menu">
             <div class="title">GONG CRM</div>
             <div v-show="authenticated">
-                <span class="logged-user">Hi! {{userFullName}}</span>
+                <span class="logged-user">Hi! {{userFullName}} {{this.loggedUser().firstName}}</span>
                 <!--<span class="link" @click="logout()">Logout</span>-->
                 <router-link v-bind:to="'login'" @click.native="logout">Logout</router-link>
             </div>
@@ -40,7 +40,8 @@
            },
             userFullName() {
                const fullName = this.loggedUser();
-               return `${fullName.firstName}, ${fullName.lastName}`;
+               return fullName;
+               //return `${fullName.firstName}, ${fullName.lastName}`;
             },
         },
     }

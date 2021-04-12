@@ -19,7 +19,7 @@ export default new Vuex.Store({
         token: localStorage.getItem('user-token') || '',
         status: '',
         loggedId: '',
-        loggedUser: '',
+        loggedUser: localStorage.getItem('user-name') || '',//JSON.parse(window.localStorage.getItem('user-name') || '{}'),
     },
     getters: {
         isAuthenticated: state => !!state.token,
@@ -47,16 +47,12 @@ export default new Vuex.Store({
                                    return { id: user[1].id, firstName: user[1].firstName, lastName: user[1].lastName, email: user[1].email };
                                });
 
-                               console.log("users usersArray", usersArray);
-                               //console.log("users", users);
-                               state.loggedUser = usersArray.find(user=>user.id === userId);
-
-                               console.log("state.loggedUser", state.loggedUser);
+                               const loggedUserObj = usersArray.find(user=>user.id === userId);
+                               state.loggedUser = `${loggedUserObj.firstName}, ${loggedUserObj.lastName}`;
+                               localStorage.setItem('user-name', state.loggedUser);
                            }
                        );
 
-                       // const users = data.getUsers();
-                       // console.log("users", users);
 
                    } else {
                        commit(AUTH_ERROR, 'error');
