@@ -20,12 +20,14 @@ export default new Vuex.Store({
         status: '',
         loggedId: '',
         loggedUser: localStorage.getItem('user-name') || '',//JSON.parse(window.localStorage.getItem('user-name') || '{}'),
+        employees: '',
     },
     getters: {
         isAuthenticated: state => !!state.token,
         authStatus: state => state.status,
         loggedId: state => state.loggedId,
         loggedUser: state => state.loggedUser,
+        employees: state => state.employees,
     },
     actions: {
         [AUTH_REQUEST]: ({commit, state}, user) => {
@@ -41,12 +43,25 @@ export default new Vuex.Store({
                        state.loggedId = userId;
                        data.getUsers().then(users =>
                            {
-
                                const usersArray = Object.entries(users).map(user=>{
                                    console.log("user", user);
-                                   return { id: user[1].id, firstName: user[1].firstName, lastName: user[1].lastName, email: user[1].email };
-                               });
 
+                                   //Prevent retrieving bad data since part of it is corrupted :-(
+                                   if(user[0] && user[0] !== "undefined" && user[1] && user[1].id) {
+                                       return {
+                                           id: user[1].id,
+                                           firstName: user[1].firstName,
+                                           lastName: user[1].lastName,
+                                           email: user[1].email,
+                                           managerId: user[1].managerId,
+                                           photo: user[1].photo,
+                                           selected: false,
+                                       };
+                                   }
+                                   return false;
+                               });
+                               state.employees = usersArray;
+                               console.log("state.employees", state.employees);
                                const loggedUserObj = usersArray.find(user=>user.id === userId);
                                state.loggedUser = `${loggedUserObj.firstName}, ${loggedUserObj.lastName}`;
                                localStorage.setItem('user-name', state.loggedUser);
