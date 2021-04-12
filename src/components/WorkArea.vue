@@ -28,7 +28,7 @@
 
 
                 </div>
-
+                <div v-if="success">Update success!</div>
             </form>
         </div>
 
@@ -50,14 +50,16 @@
                 selectedEmployee: {},
                 password: "",
                 age:"",
+                success: false,
             }
         },
         methods: {
             ...mapGetters(['employees']),
             update: function () {
+                this.success = false;
                 const { selectedEmployee } = this;
                 this.$store.dispatch(UPDATE_EMPLOYEE, { selectedEmployee }).then(() => {
-
+                    this.success = true;
                 })
             }
         },
@@ -78,6 +80,7 @@
 
                 // We have to move our method to a handler field
                 handler() {
+                    this.success = false;
                     return this.selectedEmployee = this.employees().find(employee => employee.selected);
                 }
             },
