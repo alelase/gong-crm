@@ -4,7 +4,7 @@
         <div v-for="employee in managerList"  v-bind:key="employee.id" class="employees" v-show="employeeList">
             <div class="employee" @click="SelectEmployee(employee)" :class="{'selected': employee.selected}">{{employee.firstName}}, {{employee.lastName}}</div>
             <div class="separator"></div>
-            <div  v-for="employeeOf in employeesOfSpecificManager"
+            <div class="employee-of"  v-for="employeeOf in employeesOfSpecificManager"
                   :class="{'selected': employee.selected}"
                   v-bind:key="employeeOf.id"
                   v-show="employee.id === employeeOf.managerId"
@@ -100,6 +100,16 @@
 
     .employee.selected {
         background-color: rgba(0, 121, 239, 0.1);
+        font-weight: bold;
+    }
+
+    .employee-of:hover {
+        cursor: pointer;
+        background-color: rgba(0,121,239,.05);
+    }
+
+    .employee-of.selected {
+        background-color: rgba(0, 121, 249, 0.4);
         font-weight: bold;
     }
 
