@@ -7,7 +7,6 @@
 </template>
 
 <script>
-// import Login from "./components/Login";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
@@ -19,10 +18,8 @@ export default {
   },
   created: function() {
     if (!this.$store.getters.isAuthenticated) {
-
       const path = '/login';
       if (this.$route.path !== path) this.$router.push(path);
-      //this.$store.dispatch(USER_REQUEST);
     }
   }
 }

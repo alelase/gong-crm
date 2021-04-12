@@ -16,8 +16,10 @@
                 </div>
                 <hr/>
                 <div class="button-container">
+                    <div v-show="status==='error'" class="error">login error!</div>
                     <button type="submit">Login</button>
                 </div>
+
 
             </div>
 
@@ -27,6 +29,8 @@
 
 <script>
     import { AUTH_REQUEST } from "../store";
+    import {mapGetters} from 'vuex';
+
     export default {
         name: "Login",
         data() {
@@ -36,6 +40,7 @@
             };
         },
         methods: {
+            ...mapGetters(['authStatus']),
             login: function () {
                 const { username, password } = this;
                 console.log("username", username);
@@ -43,7 +48,13 @@
                     this.$router.push('/');
                 })
             }
-        }
+        },
+        computed: {
+            status() {
+                console.log("this.authStatus", this.authStatus());
+                return this.authStatus();
+            }
+        },
     }
 </script>
 
@@ -84,7 +95,7 @@
         padding-right: 48px;
         display: flex;
         justify-content: flex-end;
-
+        align-items: center;
     }
 
 
@@ -104,5 +115,11 @@
         font-size: 18px;
         color: black;
     }
+
+    .login-container .button-container .error {
+        padding-right: 64px;
+        color: crimson;
+    }
+
 
 </style>

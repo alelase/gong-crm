@@ -1,13 +1,35 @@
 <template>
     <div class="header-container">
-        <div class="title">GONG CRM</div>
         <div class="logo-container"><img src="@/assets/gong_logo.svg" /></div>
+        <div class="menu">
+            <div class="title">GONG CRM</div>
+            <div v-show="authenticated">
+                <span>Hi! Albertito</span>
+                <span>Logout</span>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
+    import {mapGetters} from 'vuex';
+
     export default {
-        name: "Header"
+        name: "Header",
+        data() {
+            return {
+                // authenticated: false
+            }
+        },
+        methods: {
+            ...mapGetters(['isAuthenticated'])
+        },
+        computed: {
+           authenticated() {
+               console.log("this.isAuthenticated", this.isAuthenticated());
+               return this.isAuthenticated();
+           }
+        },
     }
 </script>
 
