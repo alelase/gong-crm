@@ -4,7 +4,7 @@
         <div class="menu">
             <div class="title">GONG CRM</div>
             <div v-show="authenticated">
-                <span class="logged-user">Hi! Albertito Geniales discontes</span>
+                <span class="logged-user">Hi! {{userFullName}}</span>
                 <!--<span class="link" @click="logout()">Logout</span>-->
                 <router-link v-bind:to="'login'" @click.native="logout">Logout</router-link>
             </div>
@@ -23,7 +23,7 @@
             }
         },
         methods: {
-            ...mapGetters(['isAuthenticated']),
+            ...mapGetters(['isAuthenticated', 'loggedUser']),
             logout() {
                 this.$store.dispatch(AUTH_LOGOUT).then(() => {
                     //this.$router.push('/login');
@@ -37,7 +37,11 @@
            authenticated() {
                console.log("this.isAuthenticated", this.isAuthenticated());
                return this.isAuthenticated();
-           }
+           },
+            userFullName() {
+               const fullName = this.loggedUser();
+               return `${fullName.firstName}, ${fullName.lastName}`;
+            },
         },
     }
 </script>
