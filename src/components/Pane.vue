@@ -8,7 +8,7 @@
                   :class="{'selected': employee.selected}"
                   v-bind:key="employeeOf.id"
                   v-show="employee.id === employeeOf.managerId"
-                  @click="SelectEmployee(employeeOf)">{{employeeOf.firstName}}</div>
+                  @click="SelectEmployee(employeeOf)">{{employeeOf.firstName}}, {{employeeOf.lastName}}</div>
             <div class="separator"></div>
         </div>
     </div>
