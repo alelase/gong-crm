@@ -1,8 +1,14 @@
 <template>
     <div  class="pane-container scrollable">
         <div class="title">Employees</div>
-        <div v-for="employee in employeeList"  v-bind:key="employee.id" class="employees" v-show="employeeList">
+        <div v-for="employee in managerList"  v-bind:key="employee.id" class="employees" v-show="employeeList">
             <div class="employee" @click="SelectEmployee(employee)" :class="{'selected': employee.selected}">{{employee.firstName}}, {{employee.lastName}}</div>
+            <div class="separator"></div>
+            <div  v-for="employeeOf in employeesOfSpecificManager"
+                  :class="{'selected': employee.selected}"
+                  v-bind:key="employeeOf.id"
+                  v-show="employee.id === employeeOf.managerId"
+                  @click="SelectEmployee(employeeOf)">{{employeeOf.firstName}}</div>
             <div class="separator"></div>
         </div>
     </div>
@@ -15,7 +21,9 @@
         name: "Pane",
         data() {
             return {
-                employeeList: []
+                employeeList: [],
+                managerList: [],
+                employeesOfSpecificManager: []
             }
         },
         methods: {
@@ -29,7 +37,11 @@
                 });
 
                 employee.selected = true;
-                console.log("employee", employee);
+                console.log("employee.managerId", employee.managerId);
+                if(!employee.managerId) {
+                    console.log("entro?");
+                    this.employeesOfSpecificManager = this.employees().filter(emp => emp.managerId == employee.id);
+                }
             }
         },
         computed: {
@@ -41,10 +53,21 @@
 
                 return [];
             },
+            // viewsByManager() {
+            //     //https://lodash.com/docs/4.17.15#chain
+            //     return _.chain(this.employeeList)
+            //     // Group the elements of Array based on `category` property
+            //         .groupBy("category")
+            //         // `key` is group's name (category), `value` is the array of objects
+            //         .map((value, key) => ({ categoryName: key, data: value }))
+            //         .value();
+            //
+            // },
         },
         watch: {
             Employees() {
                 this.employeeList = this.employees();
+                this.managerList = this.employees().filter(employee => !employee.managerId);
             }
         },
         mounted() {
