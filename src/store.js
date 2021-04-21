@@ -66,7 +66,7 @@ export default new Vuex.Store({
                                    }
                                    return false;
                                });
-                               state.employees = usersArray;
+                               state.employees = usersArray.filter(emp=>emp);
                                console.log("state.employees", state.employees);
                                const loggedUserObj = usersArray.find(user=>user.id === userId);
                                state.loggedUser = `${loggedUserObj.firstName}, ${loggedUserObj.lastName}`;
