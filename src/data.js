@@ -45,7 +45,6 @@ export default class Data {
         console.log("mapSecret", mapSecret);
         console.log("user", user);
 
-
         const auth = new Authenticator();
         const secret = auth.encode(user.username, user.password);
         console.log("secret", secret);
@@ -83,6 +82,7 @@ export default class Data {
     }
 
     async updateEmployee(selectedEmployee) {
+        console.log("Updating employee with index", selectedEmployee.index);
         const myHeaders = new Headers(
             {
                 "dataType": "json",
@@ -96,13 +96,32 @@ export default class Data {
             method: 'PATCH',
             headers: myHeaders,
             cache: 'default',
-            body: JSON.stringify({"age": selectedEmployee.age})
+            body: JSON.stringify({"firstName": selectedEmployee.firstName, "lastName": selectedEmployee.lastName})
         });
 
 
         const response = await fetch(myRequest)
             .then(response => response.json())
             .then(data => {return data});
+
+        return response;
+    }
+
+    async deleteEmployee(selectedEmployee) {
+
+        console.log("Deleteing employee with index", selectedEmployee.index);
+        const myRequest = new Request(`https://gongfetest.firebaseio.com/users/${selectedEmployee.index}/age.json`, {
+            method: 'DELETE'
+        });
+
+
+        const response = await fetch(myRequest)
+            .then(response => response.json())
+            .then(data => {return data})
+            .catch(data=> {
+                           console.log("Que paso?");
+                           return data
+        });
 
         return response;
     }

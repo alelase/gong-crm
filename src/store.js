@@ -12,6 +12,8 @@ export const AUTH_ERROR = "AUTH_ERROR";
 export const AUTH_LOGOUT = "AUTH_LOGOUT";
 export const UPDATE_PASSWORD = "UPDATE_PASSWORD";
 export const UPDATE_EMPLOYEE = "UPDATE_EMPLOYEE";
+export const DELETE_EMPLOYEE = "DELETE_EMPLOYEE";
+export const GET_EMPLOYEES = "GET_EMPLOYEES";
 
 // const STORAGE_KEY = 'todos-vuejs';
 
@@ -59,6 +61,7 @@ export default new Vuex.Store({
                                            selected: false,
                                            index: user[0],
                                            age: user[1].age,
+                                           IsManagerHasNoEmployees: false,
                                        };
                                    }
                                    return false;
@@ -77,6 +80,37 @@ export default new Vuex.Store({
                    }
                 });
             });
+        },
+        [GET_EMPLOYEES]: ({state}) => {
+
+            if (state.token) {
+
+                data.getUsers().then(users =>
+                    {
+                        const usersArray = Object.entries(users).map(user=>{
+                            console.log("user", user);
+
+                            //Prevent retrieving bad data since part of it is corrupted :-(
+                            if(user[0] && user[0] !== "undefined" && user[1] && user[1].id) {
+                                return {
+                                    id: user[1].id,
+                                    firstName: user[1].firstName,
+                                    lastName: user[1].lastName,
+                                    email: user[1].email,
+                                    managerId: user[1].managerId,
+                                    photo: user[1].photo,
+                                    selected: false,
+                                    index: user[0],
+                                    age: user[1].age,
+                                };
+                            }
+                            return false;
+                        });
+                        state.employees = usersArray;
+                        console.log("state.employees get again", state.employees);
+                    }
+                );
+            }
         },
         [AUTH_LOGOUT]: ({commit}) => {
             return new Promise((resolve) => {
@@ -101,7 +135,7 @@ export default new Vuex.Store({
         },
         [UPDATE_EMPLOYEE]: ({commit}, userdata) => {
             console.log("update user", userdata.selectedEmployee);
-            data.updateEmployee(userdata);
+           // data.updateEmployee(userdata);
 
             return new Promise((resolve) => {
 
@@ -111,6 +145,19 @@ export default new Vuex.Store({
             commit(UPDATE_PASSWORD);
                  resolve();
              });
+        },
+        [DELETE_EMPLOYEE]: ({commit}, userdata) => {
+            console.log("delete user", userdata.selectedEmployee);
+            //data.deleteEmployee(userdata);
+
+            return new Promise((resolve) => {
+
+                data.deleteEmployee(userdata.selectedEmployee).then(user => {
+                    console.log("Age deleted!", user);
+                });
+                commit(DELETE_EMPLOYEE);
+                resolve();
+            });
         },
     },
     mutations: {
@@ -135,6 +182,9 @@ export default new Vuex.Store({
         },
         [UPDATE_EMPLOYEE]: () => {
             console.log("Updated age!");
+        },
+        [DELETE_EMPLOYEE]: () => {
+          console.log("age deleted");
         },
     }
 });

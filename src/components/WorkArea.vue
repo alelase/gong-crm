@@ -7,7 +7,7 @@
             <div class="title">
                 {{selectedEmployee.email}}
             </div>
-            <form class="login" @submit.prevent="update">
+            <div class="form">
 
                 <div class="login-container">
                     <div class="title-login">
@@ -22,14 +22,19 @@
                         <input v-model="selectedEmployee.age" type="text" placeholder="age"/>
                     </div>
                     <hr/>
-                    <div class="button-container">
-                        <button type="submit">Update Employee Age</button>
+                    <div class="buttons-container">
+                        <div class="button-container">
+                            <button @click="update">Update Employee Age</button>
+                        </div>
+                        <div class="button-container">
+                            <button @click="deleteEmployee">Delete Employee Age</button>
+                        </div>
                     </div>
 
 
                 </div>
                 <div v-if="success">Update success!</div>
-            </form>
+            </div>
         </div>
 
         <div v-else class="title">
@@ -40,7 +45,7 @@
 </template>
 
 <script>
-    import { UPDATE_EMPLOYEE } from "../store";
+    import { UPDATE_EMPLOYEE, DELETE_EMPLOYEE, GET_EMPLOYEES } from "../store";
     import {mapGetters} from 'vuex';
 
     export default {
@@ -59,6 +64,14 @@
                 this.success = false;
                 const { selectedEmployee } = this;
                 this.$store.dispatch(UPDATE_EMPLOYEE, { selectedEmployee }).then(() => {
+                    this.success = true;
+                })
+            },
+            deleteEmployee: function () {
+                this.success = false;
+                const { selectedEmployee } = this;
+                selectedEmployee.age = "";
+                this.$store.dispatch(DELETE_EMPLOYEE, { selectedEmployee }).then(() => {
                     this.success = true;
                 })
             }
@@ -87,6 +100,9 @@
         },
         mounted() {
             console.log("this.hola work area", this.employeeList);
+            this.$store.dispatch(GET_EMPLOYEES).then(() => {
+                this.success = true;
+            })
         },
     }
 </script>
@@ -113,4 +129,14 @@
     .password-container {
         display: none;
     }
+
+    .buttons-container {
+        display: flex;
+        justify-content: center;
+    }
+
+    .buttons-container .button-container{
+        padding: 16px;
+    }
+
 </style>

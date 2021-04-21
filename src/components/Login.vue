@@ -36,8 +36,8 @@
         data() {
             return {
                 //Note! Placed an exisiting user only for conveninece in order to achieve fast login to debug!.
-                username: "jamie.denburg@denbamie.com",
-                password: "OP5!K?)@"
+                username: "anthony.xiouping@xtreet.tvl",
+                password: "mllv9n0x"
             };
         },
         methods: {

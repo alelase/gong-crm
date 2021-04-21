@@ -63,7 +63,6 @@ body {
 
 .button-container button{
   background-color: blueviolet;
-  font-size: 18px;
   color: white;
   transition: all linear .2s;
   cursor: pointer;
